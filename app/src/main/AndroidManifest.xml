@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jihoonyoon.soo">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:name=".notepad.App"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="false"
+        android:theme="@style/Theme.Soo"
+        tools:replace="android:theme, android:label"
+        >
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".notepad.activities.note.NoteActivity"
+            android:label="Note Activity"
+            android:theme="@style/AppTheme.WhiteBackground"
+            android:windowSoftInputMode="adjustResize|stateUnchanged"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            >
+        </activity>
+        <activity
+            android:name=".notepad.activities.DebugActivity"
+            android:label="Debug Activity"
+            android:exported="true"
+            >
+        </activity>
+        <activity
+            android:name=".notepad.activities.note.DrawingActivity"
+            android:label="Drawing Activity"
+            android:theme="@style/AppTheme.WhiteBackground"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            >
+        </activity>
+        <activity
+            android:name=".notepad.activities.home.HomeActivity"
+            android:label="@string/app_name"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="file"/>
+                <data android:mimeType="*/*"/>
+                <data android:pathPattern=".*\\.nbu"/>
+                <data android:host="*"/>
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
