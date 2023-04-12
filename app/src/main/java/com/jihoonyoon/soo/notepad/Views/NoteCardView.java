@@ -21,7 +21,9 @@ import com.jihoonyoon.soo.notepad.models.Folder;
 import com.jihoonyoon.soo.notepad.models.Note;
 import com.jihoonyoon.soo.notepad.utils.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +36,7 @@ public class NoteCardView extends CardView{
 	private static final String TAG = "NoteCardView";
 	@BindView(R.id.title) TextView title;
 	@BindView(R.id.body) TextView body;
+	@BindView(R.id.date) TextView date;
 	@BindView(R.id.drawing_image) ImageView drawingImage;
 	@BindView(R.id.folders_tag_view) HashtagView foldersTagView;
 	private Note note;
@@ -68,6 +71,9 @@ public class NoteCardView extends CardView{
 		body.setText(note.getSpannedBody());
 		title.setVisibility(isTitleEmpty ? GONE : VISIBLE);
 		body.setVisibility(isBodyEmpty ? GONE : VISIBLE);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 M월 d일\na h시 m분", Locale.KOREA);
+		String formattedDate = sdf.format(note.getCreatedAt());
+		date.setText(formattedDate);
 
 		List<Folder> folders = FolderNoteDAO.getFolders(note.getId());
 		HashtagView.DataTransform<Folder> dt = new HashtagView.DataTransform<Folder>(){

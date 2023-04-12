@@ -39,6 +39,16 @@ public class SaveDrawingJob extends Job{
 	@Override public void onRun() throws Throwable{
 		Log.e(TAG, "onRun() called with: " + "");
 
+		if(signaturePad == null){
+			Note note = NotesDAO.getNote(noteId);
+			note.setDrawing(null);
+			note.save();
+			note.setDrawingTrimmed(null);
+			note.save();
+			EventBus.getDefault().post(new NoteEditedEvent(note.getId()));
+			return;
+		}
+
 		Bitmap bitmapTrimmed = signaturePad.getTransparentSignatureBitmap(true);
 		byte[] byteBlobTrimmed = Utils.getBytes(bitmapTrimmed);
 		Blob blobTrimmed = new Blob(byteBlobTrimmed);

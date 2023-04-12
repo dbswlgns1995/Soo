@@ -1,10 +1,19 @@
 package com.jihoonyoon.soo.notepad.activities.note;
 
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +44,20 @@ public class DrawingActivity extends AppCompatActivity{
 
 	@BindView(R.id.drawing_pad) SignaturePad drawingPad;
 	@BindView(R.id.toolbar) Toolbar mToolbar;
-	@BindView(R.id.redButton) Button redButton;
+	@BindView(R.id.redButton) ImageButton redButton;
+	@BindView(R.id.whiteButton) ImageButton whiteButton;
+	@BindView(R.id.blackButton) ImageButton blackButton;
+	@BindView(R.id.yellowButton) ImageButton yellowButton;
+	@BindView(R.id.blueButton) ImageButton blueButton;
+	@BindView(R.id.refreshButton) ImageButton refreshButton;
+	@BindView(R.id.penButton) ImageButton penButton;
+	@BindView(R.id.stateTextView) TextView stateTextView;
+
+	private Drawable checkedIcon;
+	private int checkedItemId = -1;
+
+	private Float penSize = 1F;
+	private PopupMenu popupMenu;
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -49,14 +71,6 @@ public class DrawingActivity extends AppCompatActivity{
 				onBackPressed();
 			}
 		});
-
-		redButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				drawingPad.setPenColor(Color.RED);
-			}
-		});
-
 
 		note = NotesDAO.getNote(noteId);
 		Log.e(TAG, "onCreate: noteId= " + noteId + ", note= " + note);
@@ -72,13 +86,77 @@ public class DrawingActivity extends AppCompatActivity{
 			}
 		});
 
+		refreshButton.setOnClickListener(view -> {
+			drawingPad.clear();
+			hasDrawnSomething = false;
+		});
 
+		setColor();
+
+		checkedIcon = getResources().getDrawable(R.drawable.ic_baseline_check_24);
+
+		drawingPad.setMinWidth(1F);
+		drawingPad.setMaxWidth(1F);
+
+		setPopupMenu();
+
+		penButton.setOnClickListener(view -> {
+			popupMenu.show();
+		});
+	}
+
+	private void setPopupMenu(){
+		// 팝업 메뉴 생성
+		popupMenu = new PopupMenu(this, penButton, Gravity.END);
+		popupMenu.getMenuInflater().inflate(R.menu.pen_menu, popupMenu.getMenu());
+
+		// 메뉴 아이템 클릭 이벤트 리스너 등록
+		popupMenu.setOnMenuItemClickListener(item -> {
+			// 클릭된 아이템의 ID 확인
+			int itemId = item.getItemId();
+			penSize = Integer.parseInt(item.getTitle().toString()) * 1F;
+			stateTextView.setText(item.getTitle().toString());
+			drawingPad.setMinWidth(penSize);
+			drawingPad.setMaxWidth(penSize);
+			return true;
+		});
+	}
+
+
+	private void setColor(){
+
+		redButton.setOnClickListener(view -> {
+			drawingPad.setPenColor(Color.RED);
+			stateTextView.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+		});
+
+		whiteButton.setOnClickListener(view -> {
+			drawingPad.setPenColor(Color.WHITE);
+			stateTextView.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+		});
+
+		blackButton.setOnClickListener(view -> {
+			drawingPad.setPenColor(Color.BLACK);
+			stateTextView.setBackgroundTintList(ColorStateList.valueOf(Color.BLACK));
+		});
+
+		blueButton.setOnClickListener(view -> {
+			drawingPad.setPenColor(Color.BLUE);
+			stateTextView.setBackgroundTintList(ColorStateList.valueOf(Color.BLUE));
+		});
+
+		yellowButton.setOnClickListener(view -> {
+			drawingPad.setPenColor(Color.YELLOW);
+			stateTextView.setBackgroundTintList(ColorStateList.valueOf(Color.YELLOW));
+		});
 	}
 
 	@Override protected void onStop(){
 		super.onStop();
 		if (hasDrawnSomething)
 			App.JOB_MANAGER.addJobInBackground(new SaveDrawingJob(drawingPad, note.getId()));
+		else
+			App.JOB_MANAGER.addJobInBackground(new SaveDrawingJob(null, note.getId()));
 	}
 
 	@Override protected void onStart(){

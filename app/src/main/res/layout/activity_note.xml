@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:showIn="@layout/activity_home"
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		xmlns:tools="http://schemas.android.com/tools">
@@ -44,12 +43,12 @@
 
 		<ImageButton
 				android:id="@+id/edit_drawing_button"
-				android:layout_width="48dp"
-				android:layout_height="48dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
 				android:layout_gravity="left"
 				android:background="?selectableItemBackgroundBorderless"
 				android:padding="12dp"
-				android:src="@drawable/ic_gesture_white_24dp"
+				android:src="@drawable/pen"
 				android:tint="@color/md_blue_grey_600"
 				/>
 

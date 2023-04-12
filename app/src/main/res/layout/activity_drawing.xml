@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:showIn="@layout/activity_home">
+    >
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -23,23 +23,136 @@
             app:title="Add Drawing"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
 
-		<Button
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:gravity="right"
+		android:background="@color/daysLabelColor"
+		android:paddingVertical="10dp">
+
+		<TextView
+			android:id="@+id/stateTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:tint="@color/white"
+			android:background="@drawable/circle"
+			android:backgroundTint="@color/black"
+			android:layout_gravity="center"
+			android:textColor="#808080"
+			android:text="1"
+			android:gravity="center"
+			android:layout_marginHorizontal="5dp"/>
+
+		<View
+			android:layout_width="100dp"
+			android:layout_height="1dp"
+			android:background="@color/transparent"/>
+
+		<ImageButton
+			android:id="@+id/refreshButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/ic_baseline_refresh_24"
+			android:background="@color/transparent"
+			android:tint="@color/black"
+			android:layout_gravity="center"
+			android:layout_marginHorizontal="5dp"/>
+
+		<ImageButton
+			android:id="@+id/penButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/pen"
+			android:background="@color/transparent"
+			android:tint="@color/black"
+			android:layout_gravity="center"
+			android:layout_marginHorizontal="5dp"/>
+
+		<ImageButton
+			android:id="@+id/blackButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/circle"
+			android:tint="@color/black"
+			android:background="@color/transparent"
+			android:layout_gravity="center"
+			android:layout_marginHorizontal="5dp"/>
+
+		<ImageButton
 			android:id="@+id/redButton"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="red" />
+			android:src="@drawable/circle"
+			android:tint="@color/red"
+			android:background="@color/transparent"
+			android:layout_gravity="center"
+			android:layout_marginHorizontal="5dp"/>
 
-        <com.github.gcacace.signaturepad.views.SignaturePad
-            android:id="@+id/drawing_pad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            app:penColor="@android:color/black" />
+		<ImageButton
+			android:id="@+id/blueButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/circle"
+			android:tint="@color/blue"
+			android:background="@color/transparent"
+			android:layout_gravity="center"
+			android:layout_marginHorizontal="5dp"/>
+
+		<ImageButton
+			android:id="@+id/yellowButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/circle"
+			android:tint="@color/yellow"
+			android:background="@color/transparent"
+			android:layout_gravity="center"
+			android:layout_marginHorizontal="5dp"/>
+
+		<ImageButton
+			android:id="@+id/whiteButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/circle"
+			android:tint="@color/white"
+			android:background="@color/transparent"
+			android:layout_gravity="center"
+			android:layout_marginHorizontal="5dp"/>
+
+	</LinearLayout>
 
 
 
 
-    </com.google.android.material.appbar.AppBarLayout>
+<!--	<Button-->
+<!--		android:id="@+id/redButton"-->
+<!--		android:layout_width="wrap_content"-->
+<!--		android:layout_height="wrap_content"-->
+<!--		android:text="red" />-->
+
+<!--	<Button-->
+<!--		android:id="@+id/redButton"-->
+<!--		android:layout_width="wrap_content"-->
+<!--		android:layout_height="wrap_content"-->
+<!--		android:text="red" />-->
+
+<!--	<Button-->
+<!--		android:id="@+id/redButton"-->
+<!--		android:layout_width="wrap_content"-->
+<!--		android:layout_height="wrap_content"-->
+<!--		android:text="red" />-->
+
+	<com.github.gcacace.signaturepad.views.SignaturePad
+		android:id="@+id/drawing_pad"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="0dp"
+		app:penColor="@android:color/black"
+		/>
 
 
 </LinearLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/pen1"
+        android:title="1">
+    </item>
+    <item
+        android:id="@+id/pen2"
+        android:title="2">
+    </item>
+    <item
+        android:id="@+id/pen3"
+        android:title="3">
+    </item>
+    <item
+        android:id="@+id/pen4"
+        android:title="4">
+    </item>
+    <item
+        android:id="@+id/pen5"
+        android:title="5">
+    </item>
+    <item
+        android:id="@+id/pen6"
+        android:title="6">
+    </item>
+    <item
+        android:id="@+id/pen7"
+        android:title="7">
+    </item>
+    <item
+        android:id="@+id/pen8"
+        android:title="8">
+    </item>
+    <item
+        android:id="@+id/pen9"
+        android:title="9">
+    </item>
+    <item
+        android:id="@+id/pen10"
+        android:title="10">
+    </item>
+</menu>
