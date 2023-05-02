@@ -19,4 +19,11 @@
     <color name="activityBackground">@color/md_grey_200</color>
 
     <color name="transparent">#00FFFFFF</color>
+
+    <color name="pastel_red">#FED7C3</color>
+    <color name="pastel_yellow">#F6EAC2</color>
+    <color name="pastel_blue">#C6DBDA</color>
+
+    <color name="background">#faf0e6</color>
+
 </resources>

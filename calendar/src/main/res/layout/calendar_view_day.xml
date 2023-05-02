@@ -1,27 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:id="@+id/mainLayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="80dp"
+    android:layout_height="100dp"
     android:background="@drawable/day_item_background"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/dayLabel"
         android:layout_width="@dimen/day_label_size_events_enabled"
-        android:layout_height="@dimen/day_label_size_events_enabled"
+        android:layout_height="20dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="4dp"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:text="1"/>
 
-    <ImageView
-        android:id="@+id/dayIcon"
-        android:layout_width="30dp"
-        android:layout_height="20dp"
+    <LinearLayout
+        android:id="@+id/dietLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/menu1Text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            tools:text="김치찌개"/>
+
+        <TextView
+            android:id="@+id/menu2Text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            tools:text="김치찌개"/>
+
+        <TextView
+            android:id="@+id/menu3Text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            tools:text="김치찌개"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dayText"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
-        android:scaleType="centerInside" />
+        android:maxLength="20"
+        android:scaleType="centerInside"
+        tools:text="abcdefghijklnmop\n123\n123" />
 
     <View
         android:id="@+id/divider"

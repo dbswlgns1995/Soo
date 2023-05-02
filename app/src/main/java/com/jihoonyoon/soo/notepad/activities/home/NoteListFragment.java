@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,6 +30,7 @@ public class NoteListFragment extends Fragment{
 	@BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 	@BindView(R.id.new_note) FloatingActionButton mNewNoteFAB;
 	@BindView(R.id.zero_notes_view) View zeroNotesView;
+	@BindView(R.id.backButton) ImageButton imageButton;
 	Adapter adapter;
 	Folder folder;
 
@@ -54,6 +56,10 @@ public class NoteListFragment extends Fragment{
 	@OnClick(R.id.new_note) void clickNewNoteButton(){
 		Intent intent = new NoteActivityIntentBuilder().build(getContext());
 		this.startActivity(intent);
+	}
+
+	@OnClick(R.id.backButton) void clickBackButton(){
+		getActivity().finish();
 	}
 
 	@Override public void onStart(){

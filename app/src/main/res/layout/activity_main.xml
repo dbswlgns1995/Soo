@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLinearLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,15 +9,31 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
         <ImageButton
             android:id="@+id/memoImageButton"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_arrow_back_white_24dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/black"
+            />
+
+        <Switch
+            android:id="@+id/dietSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_left"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="식단"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -28,7 +45,7 @@
 
         <com.applandeo.materialcalendarview.CalendarView
             android:id="@+id/calendarView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:eventsEnabled="true"
             app:anotherMonthsDaysLabelsColor="@color/transparent"
@@ -37,10 +54,10 @@
 
         <LinearLayout
             android:id="@+id/memoLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/white"
+            android:background="@color/background"
             android:visibility="gone"
             tools:visibility="visible"
             android:layout_weight="2">
@@ -49,8 +66,259 @@
                 android:id="@+id/memoDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4월 1일"
-                android:textColor="@color/black"/>
+                android:text="2023년 4월 18일 오후 4시 40분"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="10dp"
+                android:background="#faf0e6"
+                >
+
+                <nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
+                    android:id="@+id/backgroundGroup"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:alignItems="center"
+                    app:justifyContent="center">
+
+                    <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+                        android:id="@+id/backgroundColor1"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:toggle_borderWidth="5dp"
+                        app:toggle_borderColor="@color/white"
+                        app:toggle_selectedBackgroundColor="@color/white"
+                        app:toggle_selectedBorderColor="@color/black"
+                        app:toggle_backgroundColor="@color/white"
+                        />
+
+                    <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+                        android:id="@+id/backgroundColor2"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:toggle_borderWidth="5dp"
+                        app:toggle_borderColor="@color/pastel_blue"
+                        app:toggle_selectedBackgroundColor="@color/pastel_blue"
+                        app:toggle_selectedBorderColor="@color/black"
+                        app:toggle_backgroundColor="@color/pastel_blue" />
+
+                    <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+                        android:id="@+id/backgroundColor3"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:toggle_borderWidth="5dp"
+                        app:toggle_borderColor="@color/pastel_yellow"
+                        app:toggle_selectedBackgroundColor="@color/pastel_yellow"
+                        app:toggle_selectedBorderColor="@color/black"
+                        app:toggle_backgroundColor="@color/pastel_yellow" />
+
+                    <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+                        android:id="@+id/backgroundColor4"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        app:toggle_borderWidth="5dp"
+                        app:toggle_borderColor="@color/pastel_red"
+                        app:toggle_selectedBackgroundColor="@color/pastel_red"
+                        app:toggle_selectedBorderColor="@color/black"
+                        app:toggle_backgroundColor="@color/pastel_red" />
+
+                </nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup>
+
+                <nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
+                    android:id="@+id/textColorGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:justifyContent="center"
+                    app:layout_constraintTop_toBottomOf="@id/backgroundGroup"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="10dp">
+
+                    <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+                        android:id="@+id/textColor1"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        app:toggle_text="T"
+                        app:toggle_textSize="10dp"
+                        app:toggle_textColor="@color/black"
+                        app:toggle_backgroundColor="@color/transparent"
+                        app:toggle_selectedTextColor="@color/black"
+                        app:toggle_selectedBackgroundColor="#fffacd"
+                        app:toggle_selectedBorderWidth="1dp"
+                        app:toggle_selectedBorderColor="@color/black"
+                        />
+
+                    <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+                        android:id="@+id/textColor2"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        app:toggle_text="T"
+                        app:toggle_textSize="10dp"
+                        app:toggle_textColor="@color/red"
+                        app:toggle_backgroundColor="@color/transparent"
+                        app:toggle_selectedTextColor="@color/red"
+                        app:toggle_selectedBackgroundColor="#fffacd"
+                        app:toggle_selectedBorderWidth="1dp"
+                        app:toggle_selectedBorderColor="@color/black"/>
+
+                    <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+                        android:id="@+id/textColor3"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        app:toggle_text="T"
+                        app:toggle_textSize="10dp"
+                        app:toggle_textColor="@color/blue"
+                        app:toggle_backgroundColor="@color/transparent"
+                        app:toggle_selectedTextColor="@color/blue"
+                        app:toggle_selectedBackgroundColor="#fffacd"
+                        app:toggle_selectedBorderWidth="1dp"
+                        app:toggle_selectedBorderColor="@color/black"
+                        />
+
+                </nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                android:layout_marginHorizontal="5dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                
+                <LinearLayout
+                    android:id="@+id/dietLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/consoleLinearLayout"
+                    android:orientation="vertical">
+                    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="아침 : "
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/black"/>
+
+                        <EditText
+                            android:id="@+id/menu1EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="left"
+                            android:maxLines="1"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="점심 : "
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/black"/>
+
+                        <EditText
+                            android:id="@+id/menu2EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="left"
+                            android:maxLines="1"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="저녁 : "
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/black"/>
+
+                        <EditText
+                            android:id="@+id/menu3EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="left"
+                            android:maxLines="1"/>
+
+                    </LinearLayout>
+                    
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/scheduleEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:layout_above="@id/consoleLinearLayout"
+                    android:visibility="visible"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/consoleLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="end">
+
+                    <Button
+                        android:id="@+id/saveButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="저장"
+                        android:layout_marginHorizontal="10dp"
+                        android:background="@color/pastel_blue"/>
+
+                    <Button
+                        android:id="@+id/clearButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="초기화"
+                        android:layout_marginHorizontal="10dp"
+                        android:background="@color/pastel_blue"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
         </LinearLayout>
 
     </LinearLayout>

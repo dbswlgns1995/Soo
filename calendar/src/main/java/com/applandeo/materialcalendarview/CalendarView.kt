@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
+import com.applandeo.materialcalendarview.adapters.CalendarDayAdapter
 import com.applandeo.materialcalendarview.adapters.CalendarPageAdapter
 import com.applandeo.materialcalendarview.exceptions.ErrorsMessages
 import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException
@@ -344,6 +345,11 @@ class CalendarView @JvmOverloads constructor(
             calendarProperties.eventDays = eventDays
             calendarPageAdapter.notifyDataSetChanged()
         }
+    }
+
+    fun showDietView(showDiet: Boolean) {
+        calendarProperties.isDiet = showDiet
+        calendarPageAdapter.notifyDataSetChanged()
     }
 
     fun setCalendarDays(calendarDayProperties: List<CalendarDay>) {

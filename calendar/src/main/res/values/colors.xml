@@ -8,5 +8,13 @@
     <color name="itemHighlightColor">#1F000000</color>
     <color name="itemFocusedColor">#1A000000</color>
 
-    <color name="defaultColor">#2962FF</color>
+    <color name="defaultColor">#C6DBDA</color>
+
+    <color name="pastel_red">#FED7C3</color>
+    <color name="pastel_yellow">#F6EAC2</color>
+    <color name="pastel_blue">#C6DBDA</color>
+
+    <color name="red">#FF0000</color>
+    <color name="blue">#0000FF</color>
+    <color name="yellow">#FFFF00</color>
 </resources>

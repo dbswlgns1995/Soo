@@ -16,7 +16,7 @@
         tools:replace="android:theme, android:label"
         >
         <activity
-            android:name=".MainActivity"
+            android:name=".calendar.MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>

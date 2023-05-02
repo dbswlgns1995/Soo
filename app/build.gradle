@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -67,6 +68,7 @@ dependencies {
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
 
+    // picture
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
     implementation 'se.emilsjolander:intentbuilder-api:0.14.0'
@@ -78,4 +80,10 @@ dependencies {
     implementation 'com.github.gcacace:signature-pad:1.2.0'
     implementation 'com.birbit:android-priority-jobqueue:2.0.0'
     implementation 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
+
+    // toggle Button
+    implementation 'nl.bryanderidder:themed-toggle-button-group:1.4.1'
+
+    // toast
+    implementation 'com.sdsmdg.tastytoast:tastytoast:0.1.1'
 }

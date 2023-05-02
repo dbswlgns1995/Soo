@@ -84,6 +84,8 @@ class CalendarProperties(private val context: Context) {
 
     var swipeEnabled: Boolean = true
 
+    var isDiet: Boolean = false
+
     var selectionDisabled: Boolean = false
 
     var previousButtonSrc: Drawable? = null

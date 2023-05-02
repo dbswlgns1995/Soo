@@ -2,17 +2,24 @@ package com.applandeo.materialcalendarview.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.applandeo.materialcalendarview.CalendarView
+import com.applandeo.materialcalendarview.R
 import com.applandeo.materialcalendarview.exceptions.InvalidCustomLayoutException
 import com.applandeo.materialcalendarview.utils.*
 import kotlinx.android.synthetic.main.calendar_view_day.view.*
 import java.util.*
+
 
 private const val INVISIBLE_IMAGE_ALPHA = 0.12f
 
@@ -23,23 +30,64 @@ private const val INVISIBLE_IMAGE_ALPHA = 0.12f
  * Created by Applandeo team
  */
 class CalendarDayAdapter(
-        context: Context,
-        private val calendarPageAdapter: CalendarPageAdapter,
-        private val calendarProperties: CalendarProperties,
-        dates: MutableList<Date>,
-        pageMonth: Int
+    context: Context,
+    private val calendarPageAdapter: CalendarPageAdapter,
+    private val calendarProperties: CalendarProperties,
+    dates: MutableList<Date>,
+    pageMonth: Int
 ) : ArrayAdapter<Date>(context, calendarProperties.itemLayoutResource, dates) {
 
     private val pageMonth = if (pageMonth < 0) 11 else pageMonth
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val dayView = view
-                ?: LayoutInflater.from(context).inflate(calendarProperties.itemLayoutResource, parent, false)
+                ?: LayoutInflater.from(context).inflate(
+                    calendarProperties.itemLayoutResource,
+                    parent,
+                    false
+                )
 
         val day = GregorianCalendar().apply { time = getItem(position) }
 
-        dayView.dayIcon?.loadIcon(day)
+        // todo 여기서 dayIcon 대신 textView 올려서
+        //dayView.dayIcon?.loadIcon(day)
+
+
+        if (calendarProperties.isDiet) {
+            dayView.dietLayout.visibility = View.VISIBLE
+            dayView.dayText.visibility = View.GONE
+
+            calendarProperties.eventDays.lastOrNull { it.calendar == day }?.let { eventDay ->
+                // diet
+                if(!eventDay.isDiet) return@let
+                dayView.menu1Text.text = eventDay.menu1
+                dayView.menu2Text.text = eventDay.menu2
+                dayView.menu3Text.text = eventDay.menu3
+
+                val textColor = ContextCompat.getColor(context, eventDay.textColor)
+                dayView.menu1Text.setTextColor(textColor)
+                dayView.menu2Text.setTextColor(textColor)
+                dayView.menu3Text.setTextColor(textColor)
+
+                val backgroundColor = ContextCompat.getColor(context, eventDay.backgroundColor)
+                dayView.mainLayout.setBackgroundColor(backgroundColor)
+            }
+        } else {
+            dayView.dietLayout.visibility = View.GONE
+            dayView.dayText.visibility = View.VISIBLE
+
+            calendarProperties.eventDays.firstOrNull { it.calendar == day }?.let { eventDay ->
+                // schedule
+                if(eventDay.isDiet) return@let
+                dayView.dayText.text = eventDay.text
+                val textColor = ContextCompat.getColor(context, eventDay.textColor)
+                dayView.dayText.setTextColor(textColor)
+                val backgroundColor = ContextCompat.getColor(context, eventDay.backgroundColor)
+                dayView.mainLayout.setBackgroundColor(backgroundColor)
+            }
+        }
 
         val dayLabel = dayView.dayLabel ?: throw InvalidCustomLayoutException
 
@@ -75,7 +123,11 @@ class CalendarDayAdapter(
             !day.isActiveDay() -> dayLabel.setDayColors(calendarProperties.disabledDaysLabelsColor)
 
             // Setting custom label color for event day
-            day.isEventDayWithLabelColor() -> setCurrentMonthDayColors(day, dayLabel, calendarProperties)
+            day.isEventDayWithLabelColor() -> setCurrentMonthDayColors(
+                day,
+                dayLabel,
+                calendarProperties
+            )
 
             // Setting current month day color
             else -> setCurrentMonthDayColors(day, dayLabel, calendarProperties)
@@ -86,7 +138,9 @@ class CalendarDayAdapter(
             && SelectedDay(this) in calendarPageAdapter.selectedDays
             && if (!calendarProperties.selectionBetweenMonthsEnabled) this[Calendar.MONTH] == pageMonth else true
 
-    private fun Calendar.isEventDayWithLabelColor() = this.isEventDayWithLabelColor(calendarProperties)
+    private fun Calendar.isEventDayWithLabelColor() = this.isEventDayWithLabelColor(
+        calendarProperties
+    )
 
     private fun Calendar.isCurrentMonthDay() = this[Calendar.MONTH] == pageMonth
             && !(calendarProperties.minimumDate != null

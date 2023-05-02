@@ -25,6 +25,15 @@ import java.util.*
 data class EventDay(val calendar: Calendar) {
     //An object which contains image to display in the day row
     internal var imageDrawable: EventImage = EventImage.EmptyEventImage
+    internal var text: String = ""
+    internal var backgroundColor: Int = 0
+    internal var textColor: Int = 0
+
+    internal var menu1: String = ""
+    internal var menu2: String = ""
+    internal var menu3: String = ""
+
+    internal var isDiet: Boolean = false
 
     internal var labelColor: Int = 0
 
@@ -34,6 +43,23 @@ data class EventDay(val calendar: Calendar) {
     init {
         calendar.setMidnight()
     }
+
+    constructor(isDiet: Boolean = false, day: Calendar, text: String, @DrawableRes backgroundColor: Int, @DrawableRes textColor: Int) : this(day) {
+        this.isDiet = isDiet
+        this.text = text
+        this.backgroundColor = backgroundColor
+        this.textColor = textColor
+    }
+
+    constructor(isDiet: Boolean = true, day: Calendar, menu1: String, menu2: String, menu3: String, @DrawableRes backgroundColor: Int, @DrawableRes textColor: Int) : this(day) {
+        this.isDiet = isDiet
+        this.menu1 = menu1
+        this.menu2 = menu2
+        this.menu3 = menu3
+        this.backgroundColor = backgroundColor
+        this.textColor = textColor
+    }
+
 
     constructor(day: Calendar, drawable: Drawable) : this(day) {
         imageDrawable = EventImage.EventImageDrawable(drawable)
