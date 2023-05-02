@@ -1,24 +1,22 @@
-//package com.jihoonyoon.soo.calendar.dao
-//
-//import androidx.room.*
-//import com.jihoonyoon.soo.calendar.model.Diet
-//import java.util.*
-//
-//@Dao
-//interface DietDao {
-//
-//    @Insert
+package com.jihoonyoon.soo.calendar.dao
+
+import com.jihoonyoon.soo.calendar.model.Diet
+import com.jihoonyoon.soo.notepad.database.FolderNoteDAO
+import com.jihoonyoon.soo.notepad.models.Folder
+import com.raizlabs.android.dbflow.sql.language.SQLite
+import java.util.*
+
+
+object DietDao {
+
+
 //    fun insertDiet(diet: Diet)
 //
-//    @Delete
 //    fun deleteDiet(diet: Diet)
 //
-//    @Update
 //    fun updateDiet(diet: Diet)
 //
-//    @Query("Select * From Diet")
 //    fun selectDiet(): List<Diet>
 //
-//    @Query("Select * From Diet Where calendar = :calendar")
 //    fun selectDietByCalendar(calendar: Calendar): Diet
-//}
+}

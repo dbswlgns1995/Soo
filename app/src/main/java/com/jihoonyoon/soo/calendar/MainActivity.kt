@@ -13,12 +13,12 @@ import com.applandeo.materialcalendarview.extensions.OnCalendarPageChangedListen
 import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.jihoonyoon.soo.R
+import com.jihoonyoon.soo.calendar.dao.ScheduleDao
+import com.jihoonyoon.soo.calendar.model.Diet
+import com.jihoonyoon.soo.calendar.model.Schedule
 import com.jihoonyoon.soo.notepad.activities.home.HomeActivity
+import com.raizlabs.android.dbflow.sql.language.SQLite
 import com.sdsmdg.tastytoast.TastyToast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import nl.bryanderidder.themedtogglebuttongroup.ThemedButton
 import nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
 import java.text.SimpleDateFormat
@@ -76,21 +76,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textColor2: ThemedButton
     private lateinit var textColor3: ThemedButton
 
-
-//    private lateinit var dietDao: DietDao
-//    private lateinit var scheduleDao: ScheduleDao
-
     var sdf = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREA)
 
     var events: ArrayList<EventDay> = ArrayList()
 
+    private val backgroundColorList = listOf(R.color.white, R.color.pastel_blue, R.color.pastel_yellow, R.color.pastel_red)
+    private val textColorList = listOf(R.color.black, R.color.red, R.color.blue)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-//        appDatabase = AppDatabase.getInstance(this)!!
-//        dietDao = appDatabase.dietDao()
-//        scheduleDao = appDatabase.scheduleDao()
 
         bindViews()
         initViews()
@@ -132,37 +127,8 @@ class MainActivity : AppCompatActivity() {
 
         memoImageButton.setOnClickListener { startActivity(Intent(this, HomeActivity::class.java)) }
 
-        backgroundColorGroup.setOnSelectListener {
-            when (it.id) {
-                R.id.backgroundColor1 -> {
-                    Log.d(TAG, "1")
-                }
-                R.id.backgroundColor2 -> {
-                    Log.d(TAG, "2")
-                }
-                R.id.backgroundColor3 -> {
-                    Log.d(TAG, "3")
-                }
-                R.id.backgroundColor4 -> {
-                    Log.d(TAG, "4")
-                }
-            }
-        }
         backgroundColorGroup.selectButton(R.id.backgroundColor1)
 
-        textColorGroup.setOnSelectListener {
-            when (it.id) {
-                R.id.textColor1 -> {
-                    Log.d(TAG, "1")
-                }
-                R.id.textColor2 -> {
-                    Log.d(TAG, "2")
-                }
-                R.id.textColor3 -> {
-                    Log.d(TAG, "3")
-                }
-            }
-        }
         textColorGroup.selectButton(R.id.textColor1)
 
         initDietSwitch()
@@ -235,6 +201,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun initSaveButton() {
         saveButton.setOnClickListener {
+
+            val backgroundColor = when (backgroundColorGroup.selectedButtons[0].id) {
+                R.id.backgroundColor1 -> backgroundColorList[0]
+                R.id.backgroundColor2 -> backgroundColorList[1]
+                R.id.backgroundColor3 -> backgroundColorList[2]
+                R.id.backgroundColor4 -> backgroundColorList[3]
+                else -> backgroundColorList[0]
+            }
+
+            val textColor = when (textColorGroup.selectedButtons[0].id) {
+                R.id.textColor1 -> textColorList[0]
+                R.id.textColor2 -> textColorList[1]
+                R.id.textColor3 -> textColorList[2]
+                else -> textColorList[0]
+            }
+
             if (!dietSwitch.isChecked) {
                 Log.d(TAG, "inactivate: ")
                 // todo 스케쥴
@@ -248,6 +230,26 @@ class MainActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
+                val schedule = Schedule()
+
+                schedule.uid = 1
+                schedule.calendar = setSaveCalendar(currentDate)
+                schedule.text = scheduleEditText.text.toString()
+                schedule.backgroundColor = backgroundColor
+                schedule.textColor = textColor
+
+                schedule.save()
+
+                if (scheduleEditText.text.isBlank()) {
+                    TastyToast.makeText(
+                        this,
+                        "저장 완료",
+                        TastyToast.LENGTH_SHORT,
+                        TastyToast.SUCCESS
+                    )
+                }
+
+                // todo refresh
 
             } else {
                 Log.d(TAG, "activate: ")
@@ -262,9 +264,43 @@ class MainActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
+
+                val diet = Diet()
+
+                diet.uid = 1
+                diet.calendar = setSaveCalendar(currentDate)
+                diet.menu1 = menu1EditText.text.toString()
+                diet.menu2 = menu2EditText.text.toString()
+                diet.menu3 = menu3EditText.text.toString()
+                diet.backgroundColor = backgroundColor
+                diet.textColor = textColor
+
+                diet.save()
+
+                if (scheduleEditText.text.isBlank()) {
+                    TastyToast.makeText(
+                        this,
+                        "저장 완료",
+                        TastyToast.LENGTH_SHORT,
+                        TastyToast.SUCCESS
+                    )
+                }
+
+                // todo refresh
+
             }
         }
     }
+
+    private fun setSaveCalendar(calendar: Calendar): Calendar {
+        val result = calendar.clone() as Calendar
+        result.set(Calendar.HOUR_OF_DAY, 18)
+        result.set(Calendar.MINUTE, 0)
+        result.set(Calendar.SECOND, 0)
+        result.set(Calendar.MILLISECOND, 0)
+        return result
+    }
+
 
     private fun bindData() {
         setEvent()
@@ -272,6 +308,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setEvent() {
         events.clear()
+
+//        val scheduleDao = ScheduleDao
+//        Log.d(TAG, "setEvent: ${scheduleDao.selectSchedule()}")
+
+
+//        val scheduleList =
+//            SQLite.select().from(Schedule::class.java).queryList()
+
+//        Log.d(TAG, "setEvent: $scheduleList")
 
 //        CoroutineScope(Dispatchers.IO).launch {
 //            scheduleDao.selectSchedule().forEach {
