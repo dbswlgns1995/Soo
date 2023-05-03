@@ -51,6 +51,10 @@ class CalendarDayAdapter(
 
         val day = GregorianCalendar().apply { time = getItem(position) }
 
+        if(!day.isCurrentMonthDay()) {
+            dayView.mainLayout.visibility = View.GONE
+        }
+
         if (calendarProperties.isDiet) {
             // todo Diet
             dayView.dietLayout.visibility = View.VISIBLE
@@ -98,6 +102,7 @@ class CalendarDayAdapter(
             // Setting not current month day color
             !day.isCurrentMonthDay() && !calendarProperties.selectionBetweenMonthsEnabled ->
                 dayLabel.setDayColors(calendarProperties.anotherMonthsDaysLabelsColor)
+
 
             // Setting view for all SelectedDays
             day.isSelectedDay() -> {
