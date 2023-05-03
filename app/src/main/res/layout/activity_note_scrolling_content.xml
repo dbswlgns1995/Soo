@@ -37,7 +37,7 @@
 				android:textColor="@color/md_grey_900"
 				android:textColorHint="@color/md_grey_500"
 				android:textCursorDrawable="@drawable/accent_cursor"
-				android:textSize="@dimen/h1"
+				android:textSize="32dp"
 				android:textStyle="bold"
 				>
 		</EditText>
@@ -56,7 +56,7 @@
 				android:textColor="@color/md_grey_900"
 				android:textColorHint="@color/md_grey_400"
 				android:textCursorDrawable="@drawable/accent_cursor"
-				android:textSize="@dimen/h2"
+				android:textSize="24dp"
 				/>
 
 

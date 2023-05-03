@@ -1,11 +1,19 @@
 package com.jihoonyoon.soo.calendar
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.isVisible
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.EventDay
@@ -24,6 +32,7 @@ import nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
 import java.text.SimpleDateFormat
 import java.util.*
 import com.jihoonyoon.soo.notepad.models.Diet
+import kotlin.properties.Delegates
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,12 +41,11 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "myLog.mainActivity"
     }
 
-    private var showMemoLayout = false
+    private lateinit var gestureDetector: GestureDetectorCompat
 
-    private var showCalendarType = false
+    private var showMemoLayout: Boolean = false
 
     private var currentDate = Calendar.getInstance()
-
 
     private lateinit var memoImageButton: ImageButton
     private lateinit var calendarView: CalendarView
@@ -95,11 +103,13 @@ class MainActivity : AppCompatActivity() {
     )
 
     private val textColorList = listOf(R.color.black, R.color.red, R.color.blue)
-    private  val textColorId = listOf(R.id.textColor1, R.id.textColor2, R.id.textColor3)
+    private val textColorId = listOf(R.id.textColor1, R.id.textColor2, R.id.textColor3)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        showMemoLayout = false
 
         bindViews()
         initViews()
@@ -148,6 +158,59 @@ class MainActivity : AppCompatActivity() {
         initDietSwitch()
         initSaveButton()
         initClearButton()
+        initSwipeMemoLayout()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun initSwipeMemoLayout() {
+        gestureDetector = GestureDetectorCompat(this, SwipeGestureListener())
+        scheduleEditText.setOnTouchListener { _, event ->
+            val handled = gestureDetector.onTouchEvent(event)
+            if (!handled) {
+                return@setOnTouchListener false
+            }
+            if (!showMemoLayout){
+                return@setOnTouchListener true
+            }
+            true
+        }
+        memoLayout.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            true
+        }
+    }
+
+    fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    inner class SwipeGestureListener : GestureDetector.SimpleOnGestureListener() {
+        private val swipeThreshold = 100
+        private val swipeVelocityThreshold = 100
+
+        override fun onFling(
+            e1: MotionEvent?,
+            e2: MotionEvent?,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            val diffX = e2?.x?.minus(e1?.x ?: 0.0F) ?: 0.0F
+            val diffY = e2?.y?.minus(e1?.y ?: 0.0F) ?: 0.0F
+
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (Math.abs(diffX) > swipeThreshold && Math.abs(velocityX) > swipeVelocityThreshold) {
+                    if (diffX > 0) {
+                        // Swipe to the right
+                        Log.d(TAG, "onFling")
+                        memoLayout.isVisible = false
+                        showMemoLayout = false
+                        memoLayout.hideKeyboard()
+                    }
+                }
+            }
+            return super.onFling(e1, e2, velocityX, velocityY)
+        }
     }
 
     // 식단 스위치

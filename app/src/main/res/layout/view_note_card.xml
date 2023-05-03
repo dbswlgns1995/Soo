@@ -28,7 +28,7 @@
 			android:paddingLeft="10dp"
 			android:paddingRight="10dp"
 			android:textColor="@color/md_grey_700"
-			android:textSize="@dimen/h2"
+			android:textSize="24dp"
 			android:textStyle="bold"
 			tools:text="title"
 			/>
@@ -48,7 +48,7 @@
 			android:ellipsize="end"
 			android:maxLines="10"
 			android:textColor="@color/md_grey_600"
-			android:textSize="@dimen/h4"
+			android:textSize="20dp"
 			tools:text="body"
 			android:layout_weight="1"
 			/>
@@ -61,7 +61,7 @@
 			android:ellipsize="end"
 			android:maxLines="10"
 			android:textColor="@color/md_grey_600"
-			android:textSize="@dimen/h4"
+			android:textSize="20dp"
 			tools:text="2023년 04월 12일\n오후 4시 16분"
 			android:layout_weight="2"
 			/>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mainLinearLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,26 +14,26 @@
 
         <ImageButton
             android:id="@+id/memoImageButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/ic_arrow_back_white_24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/ic_arrow_back_white_24dp"
             android:backgroundTint="@color/black"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Switch
             android:id="@+id/dietSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="식단"
-            android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="식단"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -47,90 +47,89 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:eventsEnabled="true"
+            android:layout_weight="1"
             app:anotherMonthsDaysLabelsColor="@color/transparent"
-            app:todayLabelColor="#ff0000"
-            android:layout_weight="1"/>
+            app:eventsEnabled="true"
+            app:todayLabelColor="#ff0000" />
 
         <LinearLayout
             android:id="@+id/memoLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_weight="2"
             android:background="@color/background"
+            android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="visible"
-            android:layout_weight="2">
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/memoDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:text="2023년 4월 18일 오후 4시 40분"
                 android:textColor="@color/black"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"/>
+                android:textSize="24dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="10dp"
-                android:paddingVertical="10dp"
-                android:paddingHorizontal="10dp"
                 android:background="#faf0e6"
-                >
+                android:orientation="vertical"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp">
 
                 <nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
                     android:id="@+id/backgroundGroup"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:alignItems="center"
-                    app:justifyContent="center">
+                    app:justifyContent="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
                         android:id="@+id/backgroundColor1"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:toggle_borderWidth="5dp"
-                        app:toggle_borderColor="@color/white"
-                        app:toggle_selectedBackgroundColor="@color/white"
-                        app:toggle_selectedBorderColor="@color/black"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         app:toggle_backgroundColor="@color/white"
-                        />
+                        app:toggle_borderColor="@color/white"
+                        app:toggle_borderWidth="5dp"
+                        app:toggle_selectedBackgroundColor="@color/white"
+                        app:toggle_selectedBorderColor="@color/black" />
 
                     <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
                         android:id="@+id/backgroundColor2"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:toggle_borderWidth="5dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:toggle_backgroundColor="@color/pastel_blue"
                         app:toggle_borderColor="@color/pastel_blue"
+                        app:toggle_borderWidth="5dp"
                         app:toggle_selectedBackgroundColor="@color/pastel_blue"
-                        app:toggle_selectedBorderColor="@color/black"
-                        app:toggle_backgroundColor="@color/pastel_blue" />
+                        app:toggle_selectedBorderColor="@color/black" />
 
                     <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
                         android:id="@+id/backgroundColor3"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:toggle_borderWidth="5dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:toggle_backgroundColor="@color/pastel_yellow"
                         app:toggle_borderColor="@color/pastel_yellow"
+                        app:toggle_borderWidth="5dp"
                         app:toggle_selectedBackgroundColor="@color/pastel_yellow"
-                        app:toggle_selectedBorderColor="@color/black"
-                        app:toggle_backgroundColor="@color/pastel_yellow" />
+                        app:toggle_selectedBorderColor="@color/black" />
 
                     <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
                         android:id="@+id/backgroundColor4"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:toggle_borderWidth="5dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:toggle_backgroundColor="@color/pastel_red"
                         app:toggle_borderColor="@color/pastel_red"
+                        app:toggle_borderWidth="5dp"
                         app:toggle_selectedBackgroundColor="@color/pastel_red"
-                        app:toggle_selectedBorderColor="@color/black"
-                        app:toggle_backgroundColor="@color/pastel_red" />
+                        app:toggle_selectedBorderColor="@color/black" />
 
                 </nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup>
 
@@ -138,52 +137,50 @@
                     android:id="@+id/textColorGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     app:justifyContent="center"
-                    app:layout_constraintTop_toBottomOf="@id/backgroundGroup"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="10dp">
+                    app:layout_constraintTop_toBottomOf="@id/backgroundGroup">
 
                     <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
                         android:id="@+id/textColor1"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        app:toggle_text="T"
-                        app:toggle_textSize="10dp"
-                        app:toggle_textColor="@color/black"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         app:toggle_backgroundColor="@color/transparent"
-                        app:toggle_selectedTextColor="@color/black"
                         app:toggle_selectedBackgroundColor="#fffacd"
-                        app:toggle_selectedBorderWidth="1dp"
                         app:toggle_selectedBorderColor="@color/black"
-                        />
+                        app:toggle_selectedBorderWidth="1dp"
+                        app:toggle_selectedTextColor="@color/black"
+                        app:toggle_text="T"
+                        app:toggle_textColor="@color/black"
+                        app:toggle_textSize="18dp" />
 
                     <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
                         android:id="@+id/textColor2"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        app:toggle_text="T"
-                        app:toggle_textSize="10dp"
-                        app:toggle_textColor="@color/red"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         app:toggle_backgroundColor="@color/transparent"
-                        app:toggle_selectedTextColor="@color/red"
                         app:toggle_selectedBackgroundColor="#fffacd"
+                        app:toggle_selectedBorderColor="@color/black"
                         app:toggle_selectedBorderWidth="1dp"
-                        app:toggle_selectedBorderColor="@color/black"/>
+                        app:toggle_selectedTextColor="@color/red"
+                        app:toggle_text="T"
+                        app:toggle_textColor="@color/red"
+                        app:toggle_textSize="18dp" />
 
                     <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
                         android:id="@+id/textColor3"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        app:toggle_text="T"
-                        app:toggle_textSize="10dp"
-                        app:toggle_textColor="@color/blue"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         app:toggle_backgroundColor="@color/transparent"
-                        app:toggle_selectedTextColor="@color/blue"
                         app:toggle_selectedBackgroundColor="#fffacd"
-                        app:toggle_selectedBorderWidth="1dp"
                         app:toggle_selectedBorderColor="@color/black"
-                        />
+                        app:toggle_selectedBorderWidth="1dp"
+                        app:toggle_selectedTextColor="@color/blue"
+                        app:toggle_text="T"
+                        app:toggle_textColor="@color/blue"
+                        app:toggle_textSize="18dp" />
 
                 </nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup>
 
@@ -192,33 +189,34 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/black"
-                android:layout_marginHorizontal="5dp"/>
+                android:layout_marginHorizontal="5dp"
+                android:background="@color/black" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                
+
                 <LinearLayout
                     android:id="@+id/dietLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@id/consoleLinearLayout"
+                    android:layout_marginTop="24dp"
                     android:orientation="vertical">
-                    
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="아침 : "
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
-                            android:textColor="@color/black"/>
+                            android:text="아침 : "
+                            android:textColor="@color/black"
+                            android:textSize="24dp" />
 
                         <EditText
                             android:id="@+id/menu1EditText"
@@ -226,23 +224,26 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="left"
-                            android:maxLines="1"/>
+                            android:maxLines="1"
+                            android:selectAllOnFocus="true"
+                            android:textSize="24dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="점심 : "
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
-                            android:textColor="@color/black"/>
+                            android:text="점심 : "
+                            android:textColor="@color/black"
+                            android:textSize="24dp" />
 
                         <EditText
                             android:id="@+id/menu2EditText"
@@ -250,23 +251,26 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="left"
-                            android:maxLines="1"/>
+                            android:maxLines="1"
+                            android:selectAllOnFocus="true"
+                            android:textSize="24dp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="저녁 : "
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
-                            android:textColor="@color/black"/>
+                            android:text="저녁 : "
+                            android:textColor="@color/black"
+                            android:textSize="24dp" />
 
                         <EditText
                             android:id="@+id/menu3EditText"
@@ -274,46 +278,52 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="left"
-                            android:maxLines="1"/>
+                            android:maxLines="1"
+                            android:selectAllOnFocus="true"
+                            android:textSize="24dp" />
 
                     </LinearLayout>
-                    
+
                 </LinearLayout>
 
                 <EditText
                     android:id="@+id/scheduleEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="top"
                     android:layout_above="@id/consoleLinearLayout"
-                    android:visibility="visible"
-                    />
+                    android:layout_marginTop="24dp"
+                    android:focusableInTouchMode="true"
+                    android:gravity="top"
+                    android:textSize="24dp"
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:id="@+id/consoleLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_alignParentBottom="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:gravity="end">
+                    android:gravity="end"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/saveButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="저장"
                         android:layout_marginHorizontal="10dp"
-                        android:background="@color/pastel_blue"/>
+                        android:background="@color/pastel_blue"
+                        android:text="저장"
+                        android:textSize="24dp" />
 
                     <Button
                         android:id="@+id/clearButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="초기화"
                         android:layout_marginHorizontal="10dp"
-                        android:background="@color/pastel_blue"/>
+                        android:background="@color/pastel_blue"
+                        android:text="초기화"
+                        android:textSize="24dp" />
 
                 </LinearLayout>
 
