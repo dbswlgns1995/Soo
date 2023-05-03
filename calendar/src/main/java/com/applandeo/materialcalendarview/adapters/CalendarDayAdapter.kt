@@ -51,17 +51,12 @@ class CalendarDayAdapter(
 
         val day = GregorianCalendar().apply { time = getItem(position) }
 
-        // todo 여기서 dayIcon 대신 textView 올려서
-        //dayView.dayIcon?.loadIcon(day)
-
-
         if (calendarProperties.isDiet) {
+            // todo Diet
             dayView.dietLayout.visibility = View.VISIBLE
             dayView.dayText.visibility = View.GONE
 
-            calendarProperties.eventDays.lastOrNull { it.calendar == day }?.let { eventDay ->
-                // diet
-                if(!eventDay.isDiet) return@let
+            calendarProperties.eventDays.firstOrNull { it.isDiet && it.calendar == day }?.let { eventDay ->
                 dayView.menu1Text.text = eventDay.menu1
                 dayView.menu2Text.text = eventDay.menu2
                 dayView.menu3Text.text = eventDay.menu3
@@ -74,13 +69,13 @@ class CalendarDayAdapter(
                 val backgroundColor = ContextCompat.getColor(context, eventDay.backgroundColor)
                 dayView.mainLayout.setBackgroundColor(backgroundColor)
             }
+
         } else {
+            // todo Schedule
             dayView.dietLayout.visibility = View.GONE
             dayView.dayText.visibility = View.VISIBLE
 
-            calendarProperties.eventDays.firstOrNull { it.calendar == day }?.let { eventDay ->
-                // schedule
-                if(eventDay.isDiet) return@let
+            calendarProperties.eventDays.firstOrNull { !it.isDiet && it.calendar == day }?.let { eventDay ->
                 dayView.dayText.text = eventDay.text
                 val textColor = ContextCompat.getColor(context, eventDay.textColor)
                 dayView.dayText.setTextColor(textColor)

@@ -13,16 +13,17 @@ import com.applandeo.materialcalendarview.extensions.OnCalendarPageChangedListen
 import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
 import com.jihoonyoon.soo.R
-import com.jihoonyoon.soo.calendar.dao.ScheduleDao
-import com.jihoonyoon.soo.calendar.model.Diet
-import com.jihoonyoon.soo.calendar.model.Schedule
 import com.jihoonyoon.soo.notepad.activities.home.HomeActivity
+import com.jihoonyoon.soo.notepad.database.DietDao
+import com.jihoonyoon.soo.notepad.database.ScheduleDao
+import com.jihoonyoon.soo.notepad.models.*
 import com.raizlabs.android.dbflow.sql.language.SQLite
 import com.sdsmdg.tastytoast.TastyToast
 import nl.bryanderidder.themedtogglebuttongroup.ThemedButton
 import nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
 import java.text.SimpleDateFormat
 import java.util.*
+import com.jihoonyoon.soo.notepad.models.Diet
 
 
 class MainActivity : AppCompatActivity() {
@@ -80,8 +81,21 @@ class MainActivity : AppCompatActivity() {
 
     var events: ArrayList<EventDay> = ArrayList()
 
-    private val backgroundColorList = listOf(R.color.white, R.color.pastel_blue, R.color.pastel_yellow, R.color.pastel_red)
+    private val backgroundColorList = listOf(
+        R.color.white,
+        R.color.pastel_blue,
+        R.color.pastel_yellow,
+        R.color.pastel_red
+    )
+    private val backgroundColorId = listOf(
+        R.id.backgroundColor1,
+        R.id.backgroundColor2,
+        R.id.backgroundColor3,
+        R.id.backgroundColor4,
+    )
+
     private val textColorList = listOf(R.color.black, R.color.red, R.color.blue)
+    private  val textColorId = listOf(R.id.textColor1, R.id.textColor2, R.id.textColor3)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
         bindViews()
         initViews()
-        bindData()
+        setEvent()
     }
 
     private fun bindViews() {
@@ -133,6 +147,7 @@ class MainActivity : AppCompatActivity() {
 
         initDietSwitch()
         initSaveButton()
+        initClearButton()
     }
 
     // 식단 스위치
@@ -143,6 +158,8 @@ class MainActivity : AppCompatActivity() {
         dietSwitch.setOnCheckedChangeListener { compoundButton, isChecked ->
             dietLinearLayout.isVisible = isChecked
             scheduleEditText.isVisible = !isChecked
+
+            initSelectDayUI()
 
             calendarView.showDietView(isChecked)
         }
@@ -173,30 +190,31 @@ class MainActivity : AppCompatActivity() {
                     memoDateTextView.text = sdf.format(eventDay.calendar.time).toString()
                 }
                 currentDate = eventDay.calendar
+                initSelectDayUI()
             }
         })
 
-        calendarView.setOnPreviousPageChangeListener(object : OnCalendarPageChangedListener,
-            OnCalendarPageChangeListener {
-            override fun onChange() {
-                Log.d(TAG, "prev: ${sdf.format(calendarView.currentPageDate.time).toString()}")
-            }
-
-            override fun invoke(p1: Int) {
-            }
-
-        })
-
-        calendarView.setOnForwardPageChangeListener(object : OnCalendarPageChangedListener,
-            OnCalendarPageChangeListener {
-            override fun onChange() {
-                Log.d(TAG, "forw: ${sdf.format(calendarView.currentPageDate.time).toString()}")
-            }
-
-            override fun invoke(p1: Int) {
-            }
-
-        })
+//        calendarView.setOnPreviousPageChangeListener(object : OnCalendarPageChangedListener,
+//            OnCalendarPageChangeListener {
+//            override fun onChange() {
+//                Log.d(TAG, "prev: ${sdf.format(calendarView.currentPageDate.time).toString()}")
+//            }
+//
+//            override fun invoke(p1: Int) {
+//            }
+//
+//        })
+//
+//        calendarView.setOnForwardPageChangeListener(object : OnCalendarPageChangedListener,
+//            OnCalendarPageChangeListener {
+//            override fun onChange() {
+//                Log.d(TAG, "forw: ${sdf.format(calendarView.currentPageDate.time).toString()}")
+//            }
+//
+//            override fun invoke(p1: Int) {
+//            }
+//
+//        })
     }
 
     private fun initSaveButton() {
@@ -230,26 +248,52 @@ class MainActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-                val schedule = Schedule()
+                val currentSchedule =
+                    ScheduleDao.getScheduleByCalendar(setSaveCalendar(currentDate))
 
-                schedule.uid = 1
-                schedule.calendar = setSaveCalendar(currentDate)
-                schedule.text = scheduleEditText.text.toString()
-                schedule.backgroundColor = backgroundColor
-                schedule.textColor = textColor
+                if (currentSchedule == null) {
+                    // todo 없으면 insert
+                    Log.d(TAG, "없엉 $currentSchedule")
 
-                schedule.save()
+                    val schedule = Schedule()
 
-                if (scheduleEditText.text.isBlank()) {
+                    schedule.calendar = setSaveCalendar(currentDate)
+                    schedule.text = scheduleEditText.text.toString()
+                    schedule.backgroundColor = backgroundColor
+                    schedule.textColor = textColor
+
+                    schedule.save()
+
                     TastyToast.makeText(
                         this,
                         "저장 완료",
                         TastyToast.LENGTH_SHORT,
                         TastyToast.SUCCESS
                     )
-                }
 
-                // todo refresh
+                    setEvent()
+
+                } else {
+                    // todo 있으면 update
+                    Log.d(TAG, "삭제후 업데이트 $currentSchedule")
+
+                    ScheduleDao.removeScheduleByCalendar(setSaveCalendar(currentDate))
+
+                    val schedule = Schedule()
+                    schedule.calendar = setSaveCalendar(currentDate)
+                    schedule.text = scheduleEditText.text.toString()
+                    schedule.backgroundColor = backgroundColor
+                    schedule.textColor = textColor
+                    schedule.save()
+
+                    TastyToast.makeText(
+                        this,
+                        "수정 완료",
+                        TastyToast.LENGTH_SHORT,
+                        TastyToast.SUCCESS
+                    )
+                    setEvent()
+                }
 
             } else {
                 Log.d(TAG, "activate: ")
@@ -264,34 +308,140 @@ class MainActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
+                val currentDiet =
+                    DietDao.getDietByCalendar(setSaveCalendar(currentDate))
 
-                val diet = Diet()
+                if (currentDiet == null) {
+                    // todo 없으면 insert
+                    Log.d(TAG, "없엉 $currentDiet")
 
-                diet.uid = 1
-                diet.calendar = setSaveCalendar(currentDate)
-                diet.menu1 = menu1EditText.text.toString()
-                diet.menu2 = menu2EditText.text.toString()
-                diet.menu3 = menu3EditText.text.toString()
-                diet.backgroundColor = backgroundColor
-                diet.textColor = textColor
+                    val diet = Diet()
 
-                diet.save()
+                    diet.calendar = setSaveCalendar(currentDate)
+                    diet.menu1 = menu1EditText.text.toString()
+                    diet.menu2 = menu2EditText.text.toString()
+                    diet.menu3 = menu3EditText.text.toString()
+                    diet.backgroundColor = backgroundColor
+                    diet.textColor = textColor
 
-                if (scheduleEditText.text.isBlank()) {
+                    diet.save()
+
                     TastyToast.makeText(
                         this,
                         "저장 완료",
                         TastyToast.LENGTH_SHORT,
                         TastyToast.SUCCESS
                     )
-                }
 
-                // todo refresh
+                    setEvent()
+
+                } else {
+                    // todo 있으면 update
+                    Log.d(TAG, "삭제후 업데이트 $currentDiet")
+
+                    DietDao.removeDietByCalendar(setSaveCalendar(currentDate))
+
+                    val diet = Diet()
+
+                    diet.calendar = setSaveCalendar(currentDate)
+                    diet.menu1 = menu1EditText.text.toString()
+                    diet.menu2 = menu2EditText.text.toString()
+                    diet.menu3 = menu3EditText.text.toString()
+                    diet.backgroundColor = backgroundColor
+                    diet.textColor = textColor
+
+                    diet.save()
+
+                    TastyToast.makeText(
+                        this,
+                        "수정 완료",
+                        TastyToast.LENGTH_SHORT,
+                        TastyToast.SUCCESS
+                    )
+                    setEvent()
+                }
 
             }
         }
     }
 
+    private fun initClearButton() {
+        clearButton.setOnClickListener {
+            if (!dietSwitch.isChecked) {
+                // todo 스케쥴
+
+                Log.d(TAG, "스케쥴")
+
+                val currentSchedule =
+                    ScheduleDao.getScheduleByCalendar(setSaveCalendar(currentDate))
+
+                if (currentSchedule != null) {
+                    // 해당 스케쥴 있으면
+                    Log.d(TAG, "있음 $currentSchedule")
+                    ScheduleDao.removeScheduleByCalendar(setSaveCalendar(currentDate))
+
+                    TastyToast.makeText(
+                        this,
+                        "삭제 완료",
+                        TastyToast.LENGTH_SHORT,
+                        TastyToast.SUCCESS
+                    )
+
+                    scheduleEditText.text.clear()
+                    backgroundColorGroup.selectButton(backgroundColorId[0])
+                    textColorGroup.selectButton(textColorId[0])
+
+                    setEvent()
+
+                } else {
+                    Log.d(TAG, "없음 $currentSchedule")
+                    scheduleEditText.text.clear()
+                    backgroundColorGroup.selectButton(backgroundColorId[0])
+                    textColorGroup.selectButton(textColorId[0])
+                }
+
+            } else {
+                // todo 식단
+
+                Log.d(TAG, "식단")
+
+                val currentDiet =
+                    DietDao.getDietByCalendar(setSaveCalendar(currentDate))
+
+                if (currentDiet != null) {
+                    // 해당 스케쥴 있으면
+                    Log.d(TAG, "있음 $currentDiet")
+                    DietDao.removeDietByCalendar(setSaveCalendar(currentDate))
+
+                    TastyToast.makeText(
+                        this,
+                        "삭제 완료",
+                        TastyToast.LENGTH_SHORT,
+                        TastyToast.SUCCESS
+                    )
+
+                    menu1EditText.text.clear()
+                    menu2EditText.text.clear()
+                    menu3EditText.text.clear()
+                    backgroundColorGroup.selectButton(backgroundColorId[0])
+                    textColorGroup.selectButton(textColorId[0])
+
+                    setEvent()
+
+                } else {
+                    Log.d(TAG, "없음 $currentDiet")
+                    menu1EditText.text.clear()
+                    menu2EditText.text.clear()
+                    menu3EditText.text.clear()
+                    backgroundColorGroup.selectButton(backgroundColorId[0])
+                    textColorGroup.selectButton(textColorId[0])
+                }
+
+            }
+        }
+    }
+
+    // calendar set 18:00:00
     private fun setSaveCalendar(calendar: Calendar): Calendar {
         val result = calendar.clone() as Calendar
         result.set(Calendar.HOUR_OF_DAY, 18)
@@ -301,53 +451,83 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
+    private fun initSelectDayUI(){
+        if (!dietSwitch.isChecked) {
+            // todo 스케쥴
+            val currentSchedule =
+                ScheduleDao.getScheduleByCalendar(setSaveCalendar(currentDate))
 
-    private fun bindData() {
-        setEvent()
+            if (currentSchedule != null) {
+                scheduleEditText.setText(currentSchedule.text)
+                backgroundColorGroup.selectButton(backgroundColorId[backgroundColorList.indexOf(currentSchedule.backgroundColor)])
+                textColorGroup.selectButton(textColorId[textColorList.indexOf(currentSchedule.textColor)])
+            } else {
+                scheduleEditText.text.clear()
+                backgroundColorGroup.selectButton(backgroundColorId[0])
+                textColorGroup.selectButton(textColorId[0])
+            }
+
+        } else {
+            // todo 식단
+            val currentDiet =
+                DietDao.getDietByCalendar(setSaveCalendar(currentDate))
+
+            if (currentDiet != null) {
+                menu1EditText.setText(currentDiet.menu1)
+                menu2EditText.setText(currentDiet.menu2)
+                menu3EditText.setText(currentDiet.menu3)
+                backgroundColorGroup.selectButton(backgroundColorId[backgroundColorList.indexOf(currentDiet.backgroundColor)])
+                textColorGroup.selectButton(textColorId[textColorList.indexOf(currentDiet.textColor)])
+            } else {
+                menu1EditText.text.clear()
+                menu2EditText.text.clear()
+                menu3EditText.text.clear()
+                backgroundColorGroup.selectButton(backgroundColorId[0])
+                textColorGroup.selectButton(textColorId[0])
+            }
+        }
+
+
     }
 
     private fun setEvent() {
         events.clear()
 
-//        val scheduleDao = ScheduleDao
-//        Log.d(TAG, "setEvent: ${scheduleDao.selectSchedule()}")
+        ScheduleDao.getAllSchedule().let {
+            Log.d(TAG, "setEvent: ${it.count()}")
+            it.forEach { schedule ->
+                events.add(
+                    EventDay(
+                        false,
+                        schedule.calendar,
+                        schedule.text,
+                        schedule.backgroundColor,
+                        schedule.textColor
+                    )
+                )
+            }
+        }
 
+        DietDao.getAllDiet().let {
+            Log.d(TAG, "setEvent: ${it.count()}")
+            it.forEach { diet ->
+                events.add(
+                    EventDay(
+                        true,
+                        diet.calendar,
+                        diet.menu1,
+                        diet.menu2,
+                        diet.menu3,
+                        diet.backgroundColor,
+                        diet.textColor
+                    )
+                )
+            }
+        }
 
-//        val scheduleList =
-//            SQLite.select().from(Schedule::class.java).queryList()
+        Log.d(TAG, "setEvent: ${events.count()}")
+        
+        calendarView.setEvents(events)
 
-//        Log.d(TAG, "setEvent: $scheduleList")
-
-//        CoroutineScope(Dispatchers.IO).launch {
-//            scheduleDao.selectSchedule().forEach {
-//                events.add(
-//                    EventDay(
-//                        false,
-//                        it.calendar,
-//                        it.text,
-//                        it.backgroundColor,
-//                        it.textColor
-//                    )
-//                )
-//            }
-//
-//            dietDao.selectDiet().forEach {
-//                events.add(
-//                    EventDay(
-//                        true,
-//                        it.calendar,
-//                        it.menu1,
-//                        it.menu2,
-//                        it.menu3,
-//                        it.backgroundColor,
-//                        it.textColor
-//                    )
-//                )
-//            }
-//
-//            withContext(Dispatchers.IO) {
-//                calendarView.setEvents(events)
-//            }
-//        }
     }
 }
